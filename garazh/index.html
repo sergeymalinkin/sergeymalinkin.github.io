@@ -35,6 +35,7 @@
 .terms{list-style:none;padding:0;margin:0}
 .terms li{border-top:1px solid var(--border);padding:12px 0;margin:0}
 .terms li strong{display:block}
+.cookie{position:fixed;left:12px;right:12px;bottom:12px;z-index:20;max-width:720px;margin:auto;background:var(--graphite);color:#fff;border-radius:12px;padding:14px 16px;display:flex;gap:14px;align-items:center;font-size:14px;line-height:1.45;box-shadow:0 8px 24px #0004}.cookie a{color:var(--accent-on-dark)}.cookie .button{min-height:40px;padding:8px 16px;flex:none;width:auto}
 @media(max-width:760px){.who{grid-template-columns:1fr}.hero{padding:28px 0 36px}}
 </style>
 </head>
@@ -175,10 +176,12 @@
 
 <footer class="footer">
   <div class="wrap">
-    <p>ИП Малинкин Сергей, ИНН 110208389138 · Telegram <a href="https://t.me/svmalinkin">@svmalinkin</a> · <a href="tel:+79657263030">+7 965 726-30-30</a></p>
-    <p>На этой странице мы не собираем личные данные. То, что вы пришлёте в Telegram, используется только для разбора вашего вопроса.</p>
+    <nav aria-label="Документы"><a href="oferta.html">Оферта</a><a href="policy.html">Политика обработки персональных данных</a></nav>
+    <p>ИП Малинкин Сергей Владимирович · ИНН 110208389138 · ОГРНИП 318762700056702 · г. Ярославль</p>
+    <p><a href="mailto:sloyz@ya.ru">sloyz@ya.ru</a> · Telegram <a href="https://t.me/svmalinkin">@svmalinkin</a> · <a href="tel:+79657263030">+7 965 726-30-30</a></p>
   </div>
 </footer>
+<div id="cookie" class="cookie" hidden><p>Сайт использует cookie и Яндекс Метрику, чтобы понимать, как работает страница. Продолжая пользоваться сайтом, вы соглашаетесь с <a href="policy.html">политикой обработки данных</a>.</p><button type="button" class="button" id="cookie-ok">Понятно</button></div>
 
 <script>
 (function(){
@@ -359,6 +362,8 @@
   $('cta2').href = 'https://t.me/'+TG+'?text='+encodeURIComponent(HELLO);
   Array.prototype.forEach.call(document.querySelectorAll('a[href^="https://t.me/"]'), function(a){ a.addEventListener('click', function(){ goal('cta_telegram'); }); });
   Array.prototype.forEach.call(document.querySelectorAll('a[href^="tel:"]'), function(a){ a.addEventListener('click', function(){ goal('cta_phone'); }); });
+  try{ if(!localStorage.getItem('cookie_ok')) $('cookie').hidden=false; }catch(e){ $('cookie').hidden=false; }
+  $('cookie-ok').onclick=function(){ $('cookie').hidden=true; try{ localStorage.setItem('cookie_ok','1'); }catch(e){} };
   render();
 
   if(METRIKA_ID){
