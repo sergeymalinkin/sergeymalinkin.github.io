@@ -88,6 +88,7 @@
         <h3>Разберу ваши документы и составлю порядок действий</h3>
         <p>Пришлите фото того, что у вас есть. Вы получите письменный разбор: что подтверждают документы, чего не хватает, куда идти первым и что уточнить до заказа кадастровых работ.</p>
         <p class="amount">2 990 ₽</p>
+        <label class="consent"><input type="checkbox" class="agree" id="agree1"><span>Я прочитал <a href="oferta.html" target="_blank">оферту</a> и согласен на обработку персональных данных по <a href="policy.html" target="_blank">политике</a></span></label><p class="quizerror" id="agreeerr1" aria-live="polite"></p>
         <div class="contacts"><a class="button" id="cta" href="https://t.me/svmalinkin" target="_blank" rel="noopener">Обсудить мой случай в Telegram</a><a class="button secondary" href="primer.html">Посмотреть пример разбора</a></div>
         <div class="copybox">Если Telegram не подставил текст, скопируйте его:
           <textarea id="msg" readonly aria-label="Текст сообщения с результатом проверки"></textarea>
@@ -113,6 +114,7 @@
           <li>шаблоны заявлений, если они подходят к вашей ситуации.</li>
         </ul>
         <p class="amount" style="font-family:var(--font-display);font-size:30px;font-weight:700;margin-top:16px">2 990 ₽</p>
+        <label class="consent"><input type="checkbox" class="agree" id="agree2"><span>Я прочитал <a href="oferta.html" target="_blank">оферту</a> и согласен на обработку персональных данных по <a href="policy.html" target="_blank">политике</a></span></label><p class="quizerror" id="agreeerr2" aria-live="polite"></p>
         <div class="contacts" style="margin-top:12px"><a class="button" id="cta2" href="https://t.me/svmalinkin" target="_blank" rel="noopener">Обсудить мой случай</a><a class="button secondary" href="primer.html">Пример разбора</a></div>
       </div>
       <div>
@@ -188,6 +190,8 @@
   var TG = 'svmalinkin';
   var METRIKA_ID = 113599025;
   var HELLO = 'Здравствуйте! Хочу разбор по гаражу. ';
+  var AGREED = '';
+  var LAST = null;
 
   var Q = [
     {id:'material', t:'Какой у вас гараж?', o:[
@@ -330,7 +334,7 @@
   function summary(r){
     var parts = [label(Q[0],A.material), label(Q[1],A.year), label(Q[2],A.place), label(Q[3],A.owner)];
     var docs = A.docs.map(function(d){ return label(Q[4],d); }).join(', ');
-    return HELLO + 'Проверка: «' + r.title + '». Гараж: ' + parts.join('; ') + '. Документы: ' + docs + '. Город: ' + (A.region||'не указан') + '.';
+    return HELLO + AGREED + 'Проверка: «' + r.title + '». Гараж: ' + parts.join('; ') + '. Документы: ' + docs + '. Город: ' + (A.region||'не указан') + '.';
   }
 
   function showResult(){
@@ -342,6 +346,7 @@
     fill('rwhy', r.why); fill('runk', r.unk);
     $('runk-wrap').hidden = !r.unk.length;
     $('rfirst').textContent = r.first;
+    LAST = r;
     var msg = summary(r);
     $('msg').value = msg;
     $('cta').href = 'https://t.me/'+TG+'?text='+encodeURIComponent(msg);
@@ -359,7 +364,22 @@
     if(navigator.clipboard) navigator.clipboard.writeText(t.value).then(done, function(){ document.execCommand('copy'); done(); });
     else { document.execCommand('copy'); done(); }
   };
-  $('cta2').href = 'https://t.me/'+TG+'?text='+encodeURIComponent(HELLO);
+  function links(){
+    $('cta2').href = 'https://t.me/'+TG+'?text='+encodeURIComponent(HELLO + AGREED);
+    if(LAST){ var m = summary(LAST); $('msg').value = m; $('cta').href = 'https://t.me/'+TG+'?text='+encodeURIComponent(m); }
+  }
+  function setAgree(on){
+    var d = new Date(), p = function(n){ return (n<10?'0':'')+n; };
+    AGREED = on ? 'С офертой ознакомлен(а), согласен(на) на обработку персональных данных по политике сайта (отметка на сайте ' + p(d.getDate())+'.'+p(d.getMonth()+1)+'.'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes()) + '). ' : '';
+    Array.prototype.forEach.call(document.querySelectorAll('.agree'), function(c){ c.checked = on; });
+    $('agreeerr1').textContent = ''; $('agreeerr2').textContent = '';
+    links();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.agree'), function(c){ c.addEventListener('change', function(){ setAgree(c.checked); if(c.checked) goal('consent'); }); });
+  [['cta','agreeerr1'],['cta2','agreeerr2']].forEach(function(x){
+    $(x[0]).addEventListener('click', function(ev){ if(!AGREED){ ev.preventDefault(); ev.stopImmediatePropagation(); $(x[1]).textContent = 'Отметьте согласие, чтобы перейти в Telegram'; } }, true);
+  });
+  links();
   Array.prototype.forEach.call(document.querySelectorAll('a[href^="https://t.me/"]'), function(a){ a.addEventListener('click', function(){ goal('cta_telegram'); }); });
   Array.prototype.forEach.call(document.querySelectorAll('a[href^="tel:"]'), function(a){ a.addEventListener('click', function(){ goal('cta_phone'); }); });
   try{ if(!localStorage.getItem('cookie_ok')) $('cookie').hidden=false; }catch(e){ $('cookie').hidden=false; }
