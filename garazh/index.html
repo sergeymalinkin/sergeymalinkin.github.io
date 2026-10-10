@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Гараж по амнистии: проверка за 2 минуты</title>
+<meta name="description" content="Подходит ли ваш гараж под гаражную амнистию. Ответьте на 5 вопросов и получите предварительный результат.">
+<style>
+:root{--bg:#f6f7f5;--card:#fff;--ink:#16201c;--mute:#5b6660;--line:#dfe4e0;--acc:#1f6f5c;--acc-d:#18574a;--ok:#1f6f5c;--warn:#a8650a;--bad:#a3342b;--r:14px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 -apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:28px;line-height:1.2;margin:8px 0 10px}
+h2{font-size:21px;line-height:1.25;margin:28px 0 10px}
+p{margin:0 0 12px}
+.sub{color:var(--mute);margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.btn{display:block;width:100%;border:0;border-radius:12px;background:var(--acc);color:#fff;font-family:inherit;font-weight:600;font-size:17px;line-height:1.2;padding:16px;text-align:center;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--acc-d)}
+.btn:focus-visible,.opt:focus-within,input[type=text]:focus-visible{outline:3px solid #7fb8a8;outline-offset:2px}
+.btn.ghost{background:#fff;color:var(--acc);border:2px solid var(--acc)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .25s}
+.q{font-size:20px;font-weight:600;margin:0 0 14px}
+.opt{display:flex;gap:12px;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:14px;margin:0 0 10px;cursor:pointer;background:#fff}
+.opt input{width:20px;height:20px;accent-color:var(--acc);flex:none}
+.opt:has(input:checked){border-color:var(--acc);background:#eef6f3}
+input[type=text]{width:100%;font:inherit;border:1.5px solid var(--line);border-radius:12px;padding:14px}
+.nav{display:flex;gap:10px;margin-top:6px}
+.nav .btn{flex:1}
+.hide{display:none!important}
+.tag{display:inline-block;font-weight:700;border-radius:8px;padding:4px 10px;margin-bottom:10px;color:#fff}
+.tag.ok{background:var(--ok)}.tag.warn{background:var(--warn)}.tag.bad{background:var(--bad)}
+ul{margin:0 0 12px;padding-left:20px}li{margin:4px 0}
+ol.steps{margin:0;padding-left:22px}ol.steps li{margin:8px 0}
+.price{font-size:26px;font-weight:700}
+.small{font-size:13px;color:var(--mute)}
+details{border-top:1px solid var(--line);padding:12px 0}details:last-child{border-bottom:1px solid var(--line)}
+summary{font-weight:600;cursor:pointer}
+footer{margin-top:28px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="intro">
+  <h1>Гараж в собственность по гаражной амнистии: подойдёт ли ваш</h1>
+  <p class="sub">Ответьте на 5 вопросов и получите предварительный результат за 2 минуты. Это не юридическая консультация, окончательное решение принимает администрация.</p>
+  <button class="btn" id="start" type="button">Начать проверку</button>
+  <p class="small" style="margin-top:12px">Амнистия действует до 1 сентября 2031 года. Паспорт и другие личные данные на этой странице не нужны.</p>
+</section>
+
+<section id="quiz" class="hide" aria-live="polite">
+  <div class="bar"><i id="bar"></i></div>
+  <div class="card">
+    <p class="q" id="qtext"></p>
+    <div id="qopts"></div>
+    <div class="nav">
+      <button class="btn ghost" id="back" type="button">Назад</button>
+      <button class="btn" id="next" type="button">Далее</button>
+    </div>
+  </div>
+</section>
+
+<section id="result" class="hide" aria-live="polite">
+  <div class="card">
+    <span class="tag" id="rtag"></span>
+    <h2 id="rtitle" style="margin-top:0"></h2>
+    <ul id="rlist"></ul>
+    <p class="small">Предварительная оценка по вашим ответам, не гарантия и не юридическая консультация.</p>
+  </div>
+
+  <div id="offer" class="card" style="margin-top:14px">
+    <h2 style="margin-top:0">Персональный разбор вашего дела</h2>
+    <p>Я лично смотрю ваши ответы и фото документов и за 2 рабочих дня присылаю:</p>
+    <ul>
+      <li>список шагов именно для вашего гаража и очерёдность;</li>
+      <li>перечень документов: что у вас уже есть, чего не хватает и где это получить;</li>
+      <li>шаблоны заявлений;</li>
+      <li>подсказку, как выбрать кадастрового инженера и что у него спрашивать.</li>
+    </ul>
+    <p class="price">2 990 ₽</p>
+    <p class="small">Оплата после того, как мы согласуем, что именно разбирать. Кадастровые работы оплачиваются отдельно инженеру, цену называет он после осмотра. Результат оформления зависит от администрации, я его не гарантирую.</p>
+    <a class="btn" id="cta" href="#" target="_blank" rel="noopener">Написать в Telegram</a>
+    <p class="small" style="margin:10px 0 0">Или позвоните: <a href="tel:+79657263030" id="tel">+7 965 726-30-30</a></p>
+  </div>
+  <p style="margin-top:14px"><button class="btn ghost" id="again" type="button">Пройти проверку заново</button></p>
+</section>
+
+<section id="kak">
+  <h2>Как идёт оформление</h2>
+  <ol class="steps">
+    <li>Проверка гаража и документов.</li>
+    <li>Справка от председателя кооператива.</li>
+    <li>Схема участка и согласование в администрации (КУМИ).</li>
+    <li>Межевой и технический план у кадастрового инженера.</li>
+    <li>Подача документов и выписка из реестра.</li>
+  </ol>
+  <p class="small" style="margin-top:10px">Сроки сейчас зависят от города: в некоторых местах администрации задерживают присвоение адресов.</p>
+</section>
+
+<section id="voprosy">
+  <h2>Вопросы</h2>
+  <details><summary>Мой гараж металлический. Подойдёт ли он?</summary><p>Металлические боксы и «ракушки» под амнистию обычно не подходят: нужен капитальный гараж (кирпич, бетон, фундамент).</p></details>
+  <details><summary>Земля в аренде. Что делать?</summary><p>Порядок зависит от того, кому принадлежит земля и как она оформлена. Это можно уточнить в разборе, прежде чем тратить деньги на кадастровые работы.</p></details>
+  <details><summary>Вы юристы или кадастровая компания?</summary><p>Нет. Я объясняю шаги, проверяю документы и веду дело вместе с кадастровым инженером. Кадастровые работы выполняет инженер по отдельному договору.</p></details>
+  <details><summary>Вы гарантируете оформление?</summary><p>Нет. Решение принимает администрация и Росреестр. Я помогаю не потерять время на неверные шаги.</p></details>
+</section>
+
+<footer class="small">
+  <p>Сергей Малинкин, индивидуальный предприниматель, Ярославль. ИНН: <span id="inn">110208389138</span>. Telegram: <a href="https://t.me/svmalinkin">@svmalinkin</a>.</p>
+  <p>Справочная информация, не юридическая консультация. Данные, которые вы вписываете в сообщение в Telegram, используются только для разбора вашего вопроса.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  // Настройки: подставьте при публикации
+  var TG = 'svmalinkin';              // Telegram без @
+  var METRIKA_ID = 113599025;                 // номер счётчика Яндекс Метрики, 0 = не подключать
+  var OFFER_TEXT = 'Здравствуйте! Прошёл(ла) проверку гаража на сайте. ';
+
+  var Q = [
+    {id:'material', t:'Из чего построен гараж?', o:[
+      ['brick','Кирпич, бетонные блоки или монолит'],
+      ['metal','Металл («ракушка», бокс)'],
+      ['unk','Не знаю или смешанное']]},
+    {id:'year', t:'Когда он построен?', o:[
+      ['before','До 30 декабря 2004 года'],
+      ['after','После 30 декабря 2004 года'],
+      ['unk','Не знаю']]},
+    {id:'land', t:'Чья земля под гаражом?', o:[
+      ['coop_own','Кооператива, в собственности'],
+      ['coop_rent','Кооператива, в аренде'],
+      ['city','Муниципальная или государственная'],
+      ['unk','Не знаю']]},
+    {id:'docs', t:'Какие документы на гараж у вас есть?', o:[
+      ['coop','Справка о членстве или паевом взносе'],
+      ['old','Старый техпаспорт, решение о выделении земли, договоры на свет или воду'],
+      ['none','Пока ничего нет']]},
+    {id:'region', t:'В каком городе или регионе гараж?', text:true}
+  ];
+
+  var A = {}, i = 0;
+  var $ = function(id){return document.getElementById(id)};
+  var L = {material:{brick:'кирпич, блоки или монолит',metal:'металл',unk:'материал не знаю'},
+           year:{before:'построен до 30.12.2004',after:'построен после 30.12.2004',unk:'год не знаю'},
+           land:{coop_own:'земля кооператива в собственности',coop_rent:'земля кооператива в аренде',city:'земля муниципальная или государственная',unk:'чья земля не знаю'},
+           docs:{coop:'есть справка кооператива',old:'есть старые документы',none:'документов пока нет'}};
+
+  function goal(n){ try{ if(METRIKA_ID && window.ym) ym(METRIKA_ID,'reachGoal',n); }catch(e){} }
+
+  function show(id){ ['intro','quiz','result'].forEach(function(s){ $(s).classList.toggle('hide', s!==id); }); window.scrollTo(0,0); }
+
+  function render(){
+    var q = Q[i];
+    $('qtext').textContent = q.t;
+    $('bar').style.width = (i/Q.length*100)+'%';
+    var box = $('qopts'); box.innerHTML='';
+    if(q.text){
+      var inp = document.createElement('input');
+      inp.type='text'; inp.id='region'; inp.placeholder='Например: Ярославль'; inp.autocomplete='off';
+      inp.value = A.region||''; box.appendChild(inp);
+    } else {
+      q.o.forEach(function(o){
+        var l = document.createElement('label'); l.className='opt';
+        var r = document.createElement('input'); r.type='radio'; r.name='q'; r.value=o[0];
+        if(A[q.id]===o[0]) r.checked=true;
+        l.appendChild(r); l.appendChild(document.createTextNode(o[1])); box.appendChild(l);
+      });
+    }
+    $('back').style.visibility = i? 'visible':'hidden';
+    $('next').textContent = i===Q.length-1 ? 'Показать результат' : 'Далее';
+  }
+
+  function save(){
+    var q = Q[i];
+    if(q.text){ A.region = ($('region').value||'').trim(); return true; }
+    var c = document.querySelector('input[name=q]:checked');
+    if(!c){ return false; }
+    A[q.id] = c.value; return true;
+  }
+
+  function verdict(){
+    var ok=[], warn=[], bad=[];
+    if(A.material==='brick') ok.push('Материал подходит: капитальный гараж.');
+    else if(A.material==='metal') bad.push('Металлические боксы обычно не считаются капитальными, под амнистию они, скорее всего, не подходят.');
+    else warn.push('Нужно уточнить материал: амнистия касается только капитальных гаражей.');
+
+    if(A.year==='before') ok.push('Год постройки подходит: до 30 декабря 2004 года.');
+    else if(A.year==='after') bad.push('Гараж построен после 30 декабря 2004 года, по условиям амнистии это, скорее всего, не подходит.');
+    else warn.push('Нужно уточнить год постройки: он должен быть до 30 декабря 2004 года, подтвердить можно техпаспортом или другими документами.');
+
+    if(A.land==='coop_own') ok.push('Земля у кооператива в собственности: это самый простой вариант.');
+    else if(A.land==='coop_rent') warn.push('Земля в аренде: порядок отличается, это стоит уточнить до кадастровых работ.');
+    else if(A.land==='city') warn.push('Земля муниципальная или государственная: порядок зависит от того, как она предоставлена.');
+    else warn.push('Узнайте, чья земля под гаражом и на каком праве: от этого зависят шаги.');
+
+    if(A.docs==='coop') ok.push('Есть справка кооператива: это хорошее подтверждение.');
+    else if(A.docs==='old') ok.push('Есть старые документы: их можно использовать как подтверждение, но нужно проверить, каких не хватает.');
+    else warn.push('Пока нет документов: нужно понять, чем подтвердить, что гараж ваш и стоит давно (справка кооператива, техпаспорт, квитанции).');
+
+    var level = bad.length ? 'bad' : (warn.length ? 'warn' : 'ok');
+    return {level:level, ok:ok, warn:warn, bad:bad};
+  }
+
+  function showResult(){
+    var v = verdict();
+    var tag = $('rtag'), title = $('rtitle');
+    tag.className = 'tag '+v.level;
+    tag.textContent = {ok:'Предварительно подходит', warn:'Нужно уточнить', bad:'Скорее всего не подходит'}[v.level];
+    title.textContent = {ok:'Ваш гараж похож на подходящий под амнистию',
+                         warn:'Подходит ли гараж, пока непонятно: есть вопросы',
+                         bad:'По вашим ответам гараж, скорее всего, не подходит'}[v.level];
+    var ul = $('rlist'); ul.innerHTML='';
+    v.bad.concat(v.warn, v.ok).forEach(function(t){ var li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
+    var summary = [L.material[A.material], L.year[A.year], L.land[A.land], L.docs[A.docs]].join('; ');
+    var msg = OFFER_TEXT + 'Результат: ' + tag.textContent + '. Ответы: ' + summary + '. Регион: ' + (A.region||'не указан') + '.';
+    $('cta').href = 'https://t.me/'+TG+'?text='+encodeURIComponent(msg);
+    $('offer').classList.toggle('hide', v.level==='bad');
+    show('result');
+    goal('quiz_done_'+v.level);
+  }
+
+  $('start').onclick = function(){ i=0; A={}; render(); show('quiz'); goal('quiz_start'); };
+  $('next').onclick = function(){ if(!save()){ alert('Выберите вариант ответа'); return; } if(i<Q.length-1){ i++; render(); } else { showResult(); } };
+  $('back').onclick = function(){ if(i>0){ i--; render(); } };
+  $('again').onclick = function(){ show('intro'); };
+  $('cta').addEventListener('click', function(){ goal('cta_telegram'); });
+  $('tel').addEventListener('click', function(){ goal('cta_phone'); });
+
+  if(METRIKA_ID){
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id='+METRIKA_ID,'ym');
+    ym(METRIKA_ID,'init',{ssr:true,webvisor:true,clickmap:true,trackLinks:true,accurateTrackBounce:true,referrer:document.referrer,url:location.href});
+  }
+})();
+</script>
+</body>
+</html>
